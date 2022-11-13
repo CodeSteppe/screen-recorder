@@ -1,4 +1,4 @@
-// DOM
+// DOMs
 const recorderDiv = document.querySelector('#recorder');
 const startButton = document.querySelector('#start');
 const stopButton = document.querySelector('#stop');
@@ -6,28 +6,37 @@ const closeButton = document.querySelector('#close');
 const video = document.querySelector('#player video');
 
 // variables
-let recorder, stream;
+let recorder, stream
 
-// functions
-async function start() {
+// functions 
+async function startRecording() {
   stream = await navigator.mediaDevices.getDisplayMedia({
     video: {
-      mediaSource: "screen",
+      mediaSource: 'video',
+      // 4K resolution
       width: 3840,
-      height: 2160,
+      height: 2160
     },
+    // allow record current tab
     preferCurrentTab: true
   });
+
   recorder = new MediaRecorder(stream);
 
+  // where we store video data
   const chunks = [];
-  recorder.ondataavailable = (e) => { chunks.push(e.data) };
+
+  recorder.ondataavailable = (e) => {
+    chunks.push(e.data);
+  }
   recorder.onstart = () => {
     recorderDiv.classList.toggle('recording', true);
     recorderDiv.classList.toggle('replaying', false);
   }
-  recorder.onstop = (e) => {
-    const completeBlob = new Blob(chunks, { type: chunks[0].type });
+  recorder.onstop = () => {
+    const completeBlob = new Blob(chunks, {
+      type: chunks[0].type
+    });
     video.src = URL.createObjectURL(completeBlob);
     recorderDiv.classList.toggle('recording', false);
     recorderDiv.classList.toggle('replaying', true);
@@ -35,16 +44,17 @@ async function start() {
   recorder.start();
 }
 
-function stop() {
+function stopRecording() {
   recorder.stop();
   stream.getVideoTracks()[0].stop();
 }
 
-function closePreview() {
+function closePlayer() {
   recorderDiv.classList.toggle('recording', false);
   recorderDiv.classList.toggle('replaying', false);
 }
 
-startButton.addEventListener('click', start);
-stopButton.addEventListener('click', stop);
-closeButton.addEventListener('click', closePreview);
+// events handler
+startButton.addEventListener('click', startRecording);
+stopButton.addEventListener('click', stopRecording);
+closeButton.addEventListener('click', closePlayer);

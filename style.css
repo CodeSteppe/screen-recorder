@@ -12,15 +12,12 @@ body {
 }
 
 #recorder button {
+  display: grid;
+  place-items: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
   transition: all 0.3s;
-}
-
-#recorder button:hover {
-  transform: scale(1.2);
-}
-
-#recorder button:active {
-  transform: scale(1);
 }
 
 #recorder.recording #start {
@@ -40,33 +37,36 @@ body {
   display: none;
 }
 
+#recorder button:hover {
+  transform: scale(1.2);
+}
+
+#recorder button:active {
+  transform: scale(1);
+}
+
 #start,
 #stop {
   width: 18rem;
   height: 18rem;
-  display: grid;
-  place-items: center;
   font-size: 16rem;
-  border: none;
-  outline: none;
   background: none;
-  cursor: pointer;
 }
 
-#start {
+#recorder #start {
   color: #808080;
 }
 
-#stop {
-  display: none;
+#recorder #stop {
   color: #ff4444;
+  display: none;
 }
 
 #player {
   display: none;
-  background-color: #000;
   width: 90vw;
   aspect-ratio: 16 / 9;
+  background-color: #000;
   position: relative;
 }
 
@@ -74,7 +74,6 @@ body {
   width: 100%;
   height: 100%;
 }
-
 #player:hover #close {
   opacity: 1;
 }
@@ -90,11 +89,9 @@ body {
   bottom: 0;
   left: 0;
   margin: auto;
-  display: grid;
-  place-items: center;
+  z-index: 1;
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   cursor: pointer;
-  z-index: 1;
   opacity: 0;
 }
